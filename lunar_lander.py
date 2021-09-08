@@ -12,21 +12,21 @@ def simple_1_player(num_players=1, difficulty="easy"):
 
     # setting up some initial variables
     landed = crashed = False  # game will end when either is set to True
-
+    
     # change fuel burn rate depending on difficulty
-    difficulties = {"easy": .15, "medium": .3, "hard": .5}
+    difficulties = {"easy": (.15, 250), "medium": (.3, 150), "hard": (.5, 150)}
 
-    fuel_burn_constant = difficulties[difficulty]  # rate at which fuel is burnt. Higher values = more difficult game
+    fuel_burn_constant = difficulties[difficulty][0]  # rate at which fuel is burnt. Higher values = more difficult game
 
     altitude = 250.0  # altitude measured in meters. game ends upon reaching 0 metres
     velocity = 0.0 if difficulty != "hard" else 25 # velocity measured in m/s. for more difficult games set above 0
-    fuel = 250.0 # fuel remaining measured in litres. cannot pass below 0
+    fuel = difficulties[difficulty][1] # fuel remaining measured in litres. cannot pass below 0
     time = 0  # amount of seconds passed. Increases by one per iteration of the while loop
 
     # safe landing must be below 10m/s
 
     while not (landed or crashed):
-        print("Current velocity: %s, Current Altiude: %s" % (round(velocity, 2), round(altitude, 2)))
+        print("\nCurrent velocity: %s, Current Altiude: %s" % (round(velocity, 2), round(altitude, 2)))
         # ask the user to input fuel to burn.
         # user will be repromted if type != int or input is more than fuel remaining
         fuel_burned = pyip.inputInt(prompt="How much fuel would you like to burn. %s litres remaining. \n>>> " % fuel, max=fuel, min=0)
@@ -38,11 +38,11 @@ def simple_1_player(num_players=1, difficulty="easy"):
 
         if landed and velocity > 10.0:
             crashed = True
-            print("You crashed, Game Over")
+            print("You crashed, Game Over\n")
 
         elif landed:
             crashed = False
-            print("You landed succesfully")
+            print("You landed succesfully\n")
 
 
 # WORK IN PROGRESS #
